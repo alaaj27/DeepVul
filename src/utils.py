@@ -89,7 +89,7 @@ def process_data(other_modality, Expression, batch_size, val_split):
     print(f"Expression: {train_loader.dataset[0][1].shape}")
     print(f"Predict: {train_loader.dataset[0][0].shape}")
 
-    return train_loader, val_loader, test_loader, n_input_other, n_input_exp
+    return train_loader, val_loader, test_loader, n_input_other, n_input_exp, ess_gene_list, exp_gene_list
 
 
 def get_corrcoef (data1 , data2, dim=0, corr="spearman"):

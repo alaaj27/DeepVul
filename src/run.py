@@ -7,13 +7,15 @@ def main(pretrain_batch_size, finetuning_batch_size, hidden_state, pre_train_epo
     if run_mode == "pre-train":
         (
             train_loader, val_loader, test_loader,
-            n_input_ess, n_input_exp
+            n_input_ess, n_input_exp, ess_gene_list, exp_gene_list
         ) = load_essentiality_data(batch_size=pretrain_batch_size, val_split=False)
 
         deep_vul = DeepVul(n_input_exp=n_input_exp,
                            hidden_state=hidden_state,
                            n_input_ess=n_input_ess,
                            n_input_drug=1,
+                           ess_gene_list= ess_gene_list,
+                           exp_gene_list=exp_gene_list,
                            nhead=nhead,
                            num_layers=num_layers,
                            dim_feedforward=dim_feedforward,
@@ -25,13 +27,15 @@ def main(pretrain_batch_size, finetuning_batch_size, hidden_state, pre_train_epo
     elif run_mode == "fine-tune":
         (
             train_loader, val_loader, test_loader,
-            n_input_drug, n_input_exp
+            n_input_drug, n_input_exp, ess_gene_list, exp_gene_list
         ) = load_drug_data(batch_size=finetuning_batch_size, val_split=False)
 
         deep_vul = DeepVul(n_input_exp=n_input_exp,
                            hidden_state=hidden_state,
                            n_input_ess=1,
                            n_input_drug=n_input_drug,
+                           ess_gene_list= ess_gene_list,
+                           exp_gene_list=exp_gene_list,
                            nhead=nhead,
                            num_layers=num_layers,
                            dim_feedforward=dim_feedforward,
@@ -48,13 +52,15 @@ def main(pretrain_batch_size, finetuning_batch_size, hidden_state, pre_train_epo
 
         (
             train_loader_drug, val_loader_drug, test_loader_drug,
-            n_input_drug, n_input_exp
+            n_input_drug, n_input_exp, ess_gene_list, exp_gene_list
         ) = load_drug_data(batch_size=finetuning_batch_size, val_split=False)
 
         deep_vul = DeepVul(n_input_exp=n_input_exp,
                            hidden_state=hidden_state,
                            n_input_ess=n_input_ess,
                            n_input_drug=n_input_drug,
+                           ess_gene_list= ess_gene_list,
+                           exp_gene_list=exp_gene_list,
                            nhead=nhead,
                            num_layers=num_layers,
                            dim_feedforward=dim_feedforward,

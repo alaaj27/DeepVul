@@ -78,6 +78,7 @@ For more details on the model and its implementation, please refer to the source
 
 ## Citation
 
+```
 @article {Jararweh2024.10.17.618944,
 	author = {Jararweh, Ala and Arredondo, David and Macaulay, Oladimeji and Dicome, Mikaela and Tafoya, Luis and Hu, Yue and Virupakshappa, Kushal and Boland, Genevieve and Flaherty, Keith and Sahu, Avinash},
 	title = {DeepVul: A Multi-Task Transformer Model for Joint Prediction of Gene Essentiality and Drug Response},
@@ -89,4 +90,4 @@ For more details on the model and its implementation, please refer to the source
 	eprint = {https://www.biorxiv.org/content/early/2024/10/21/2024.10.17.618944.full.pdf},
 	journal = {bioRxiv}
 }
-
+```

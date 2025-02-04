@@ -73,4 +73,20 @@ python run_deepvul.py --pretrain_batch_size 20 --finetuning_batch_size 20 --hidd
 
 ## Additional Information
 
-For more details on the model and its implementation, please refer to the source code and associated documentation. If you encounter any issues or have questions, feel free to open an issue or contact the maintainers.
+For more details on the model and its implementation, please refer to the source code and associated documentation. If you encounter any issues or have questions, please open an issue or contact the maintainers.
+
+
+## Citation
+
+@article {Jararweh2024.10.17.618944,
+	author = {Jararweh, Ala and Arredondo, David and Macaulay, Oladimeji and Dicome, Mikaela and Tafoya, Luis and Hu, Yue and Virupakshappa, Kushal and Boland, Genevieve and Flaherty, Keith and Sahu, Avinash},
+	title = {DeepVul: A Multi-Task Transformer Model for Joint Prediction of Gene Essentiality and Drug Response},
+	elocation-id = {2024.10.17.618944},
+	year = {2024},
+	doi = {10.1101/2024.10.17.618944},
+	publisher = {Cold Spring Harbor Laboratory},
+	URL = {https://www.biorxiv.org/content/early/2024/10/21/2024.10.17.618944},
+	eprint = {https://www.biorxiv.org/content/early/2024/10/21/2024.10.17.618944.full.pdf},
+	journal = {bioRxiv}
+}
+

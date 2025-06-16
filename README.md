@@ -1,93 +1,125 @@
+# 🔬 DeepVul: Multi-Task Transformer for Gene Essentiality and Drug Response
 
-# DeepVul
+**DeepVul** is a multi-task transformer-based model designed to jointly predict **gene essentiality** and **drug response** using gene expression data. The model uses a **shared feature extractor** to learn robust biological representations that can be fine-tuned for downstream tasks, such as gene knockout effect prediction or treatment sensitivity profiling.
 
-DeepVul is a model designed to predict gene essentiality and drug response using gene expression data. The model leverages a shared feature extractor to learn representations that can be fine-tuned for specific tasks such as gene essentiality prediction and drug response prediction.
+---
 
-## Installation
+## 📑 Table of Contents
 
-To set up the environment, use the provided `condaenv.yml` file with conda. First, ensure you have conda installed, then run the following command:
+- [🚀 Features](#-features)  
+- [📦 Installation](#-installation)  
+- [📊 Datasets](#-datasets)  
+- [⚙️ Hyperparameters](#️-hyperparameters)  
+- [🏃 Running the Model](#-running-the-model)  
+- [🧠 Additional Info](#-additional-information)  
+- [📄 Citation](#-citation)
+
+---
+
+## 🚀 Features
+
+- Joint prediction of gene essentiality and drug response  
+- Shared transformer encoder for multi-task learning  
+- Flexible modes: pre-training only, fine-tuning only, or both  
+- Compatible with public omics and pharmacogenomic datasets  
+- Fully configurable via command-line arguments  
+
+---
+
+## 📦 Installation
+
+Make sure you have [conda](https://docs.conda.io/en/latest/) installed. Then run:
 
 ```bash
 conda env create --file condaenv.yml
 conda activate condaenv
 ```
-### Datasets
 
-To run the DeepVul model, you will need to download the following datasets and copy them into the `data` directory (with the names shown below):
+---
 
-1. **Gene Expression**: [OmicsExpressionProteinCodingGenesTPMLogp1](https://depmap.org/portal/data_page/?tab=allData&releasename=DepMap%20Public%2024Q2&filename=OmicsExpressionProteinCodingGenesTPMLogp1.csv)
-2. **Gene Essentiality**: [CRISPRGeneEffect.csv](https://depmap.org/portal/data_page/?tab=allData&releasename=DepMap%20Public%2024Q2&filename=CRISPRGeneEffect.csv)
-3. **Drug Response**: [primary-screen-replicate-collapsed-logfold-change.csv](https://depmap.org/portal/data_page/?tab=allData&releasename=PRISM%20Repurposing%2019Q4&filename=primary-screen-replicate-collapsed-logfold-change.csv)
-4. **Sanger Essentiality Data**: [gene_effect.csv](https://depmap.org/portal/data_page/?tab=allData&releasename=Sanger%20CRISPR%20(Project%20Score%2C%20CERES)&filename=gene_effect.csv)
-5. **Somatic Mutation Data**: [CCLE_Oncomap3_Assays_2012-04-09.csv](https://depmap.org/portal/data_page/?tab=allData&releasename=Oncomap%20mutations&filename=CCLE_Oncomap3_Assays_2012-04-09.csv)
+## 📊 Datasets
 
-After downloading these datasets, place them in the `data` directory to ensure the model can access them correctly.
-## Hyperparameter Usage and Possible Values
+To run DeepVul, download the following datasets and place them in the `data/` directory:
 
-When running the DeepVul model, you can specify various hyperparameters to control its behavior. Below is a list of the hyperparameters along with their possible values:
+| Dataset | Description | Source |
+|--------|-------------|--------|
+| **Gene Expression** | TPM-log transformed gene expression data | [Download](https://depmap.org/portal/data_page/?tab=allData&releasename=DepMap%20Public%2024Q2&filename=OmicsExpressionProteinCodingGenesTPMLogp1.csv) |
+| **Gene Essentiality** | CRISPR-Cas9 knockout effect scores | [Download](https://depmap.org/portal/data_page/?tab=allData&releasename=DepMap%20Public%2024Q2&filename=CRISPRGeneEffect.csv) |
+| **Drug Response** | PRISM log-fold change drug response | [Download](https://depmap.org/portal/data_page/?tab=allData&releasename=PRISM%20Repurposing%2019Q4&filename=primary-screen-replicate-collapsed-logfold-change.csv) |
+| **Sanger Essentiality** | CERES gene effect data from Sanger | [Download](https://depmap.org/portal/data_page/?tab=allData&releasename=Sanger%20CRISPR%20(Project%20Score%2C%20CERES)&filename=gene_effect.csv) |
+| **Somatic Mutation** | Mutation profiles for CCLE lines | [Download](https://depmap.org/portal/data_page/?tab=allData&releasename=Oncomap%20mutations&filename=CCLE_Oncomap3_Assays_2012-04-09.csv) |
 
-- `--pretrain_batch_size`: Batch size for pre-training data loading (default: 20)
-- `--finetuning_batch_size`: Batch size for fine-tuning data loading (default: 20)
-- `--hidden_state`: Hidden state size for the model (default: 500)
-- `--pre_train_epochs`: Number of epochs for pre-training (default: 20)
-- `--fine_tune_epochs`: Number of epochs for fine-tuning (default: 20)
-- `--opt`: Optimizer type (default: "Adam")
-- `--lr`: Learning rate for the optimizer (default: 0.0001)
-- `--dropout`: Dropout rate (default: 0.1)
-- `--nhead`: Number of heads in the multihead attention models (default: 2)
-- `--num_layers`: Number of layers in the model (default: 2)
-- `--dim_feedforward`: Dimension of the feedforward network (default: 2048)
-- `--fine_tuning_mode`: Mode for fine-tuning (default: "freeze-shared", options: ["freeze-shared", "initial-shared"])
-- `--run_mode`: Run mode (options: "pre-train", "fine-tune", "both")
+---
 
-## Running the Model
-First, change your current directory to src :
+## ⚙️ Hyperparameters
 
+DeepVul supports flexible training via CLI arguments:
+
+| Parameter | Default | Description |
+|----------|---------|-------------|
+| `--pretrain_batch_size` | 20 | Batch size during pre-training |
+| `--finetuning_batch_size` | 20 | Batch size during fine-tuning |
+| `--hidden_state` | 500 | Size of transformer hidden layers |
+| `--pre_train_epochs` | 20 | Pre-training epochs |
+| `--fine_tune_epochs` | 20 | Fine-tuning epochs |
+| `--opt` | Adam | Optimizer type |
+| `--lr` | 0.0001 | Learning rate |
+| `--dropout` | 0.1 | Dropout rate |
+| `--nhead` | 2 | Number of attention heads |
+| `--num_layers` | 2 | Transformer encoder layers |
+| `--dim_feedforward` | 2048 | Feedforward network size |
+| `--fine_tuning_mode` | freeze-shared | Whether to freeze shared layers during fine-tuning |
+| `--run_mode` | pre-train / fine-tune / both | Execution mode |
+
+---
+
+## 🏃 Running the Model
+
+### Change directory into the `src` folder:
 ```bash
 cd src
 ```
 
 ### Pre-training
-
-To run the pre-training process, use the following command:
-
 ```bash
-python run_deepvul.py --pretrain_batch_size 20 --hidden_state 1000 --pre_train_epochs 20 --opt "Adam" --lr 0.0005 --dropout 0.2 --nhead 4 --num_layers 2 --dim_feedforward 1024 --run_mode pre-train
+python run_deepvul.py --run_mode pre-train ...
 ```
 
 ### Fine-tuning
-
-To run the fine-tuning process, use the following command:
-
 ```bash
-python run_deepvul.py --finetuning_batch_size 20 --hidden_state 1000 --fine_tune_epochs 20 --opt "Adam" --lr 0.0005 --dropout 0.2 --nhead 4 --num_layers 2 --dim_feedforward 1024 --fine_tuning_mode "freeze-shared" --run_mode fine-tune
+python run_deepvul.py --run_mode fine-tune ...
 ```
 
-### Running Both Pre-training and Fine-tuning
-
-To run both pre-training and fine-tuning sequentially, use the following command:
-
+### Full Pipeline (Pre-train + Fine-tune)
 ```bash
-python run_deepvul.py --pretrain_batch_size 20 --finetuning_batch_size 20 --hidden_state 1000 --pre_train_epochs 20 --fine_tune_epochs 20 --opt "Adam" --lr 0.0005 --dropout 0.2 --nhead 4 --num_layers 2 --dim_feedforward 1024 --fine_tuning_mode "freeze-shared" --run_mode both
+python run_deepvul.py --run_mode both ...
 ```
 
-## Additional Information
+Customize the CLI options as needed based on your experiment setup.
 
-For more details on the model and its implementation, please refer to the source code and associated documentation. If you encounter any issues or have questions, please open an issue or contact the maintainers.
+---
 
+## 🧠 Additional Information
 
-## Citation
+- Source code for model architecture, training, and evaluation is located in the `src/` directory.  
+- If you encounter issues or have questions, please open a GitHub Issue or contact the maintainers.  
+- Model interpretation and evaluation scripts are included in the repo.
 
-```
+---
+
+## 📄 Citation
+
+If you use DeepVul in your work, please cite:
+
+```bibtex
 @article {Jararweh2024.10.17.618944,
-	author = {Jararweh, Ala and Arredondo, David and Macaulay, Oladimeji and Dicome, Mikaela and Tafoya, Luis and Hu, Yue and Virupakshappa, Kushal and Boland, Genevieve and Flaherty, Keith and Sahu, Avinash},
-	title = {DeepVul: A Multi-Task Transformer Model for Joint Prediction of Gene Essentiality and Drug Response},
-	elocation-id = {2024.10.17.618944},
-	year = {2024},
-	doi = {10.1101/2024.10.17.618944},
-	publisher = {Cold Spring Harbor Laboratory},
-	URL = {https://www.biorxiv.org/content/early/2024/10/21/2024.10.17.618944},
-	eprint = {https://www.biorxiv.org/content/early/2024/10/21/2024.10.17.618944.full.pdf},
-	journal = {bioRxiv}
+  author = {Jararweh, Ala and Arredondo, David and Macaulay, Oladimeji and Dicome, Mikaela and Tafoya, Luis and Hu, Yue and Virupakshappa, Kushal and Boland, Genevieve and Flaherty, Keith and Sahu, Avinash},
+  title = {DeepVul: A Multi-Task Transformer Model for Joint Prediction of Gene Essentiality and Drug Response},
+  elocation-id = {2024.10.17.618944},
+  year = {2024},
+  doi = {10.1101/2024.10.17.618944},
+  publisher = {Cold Spring Harbor Laboratory},
+  URL = {https://www.biorxiv.org/content/early/2024/10/21/2024.10.17.618944},
+  journal = {bioRxiv}
 }
 ```

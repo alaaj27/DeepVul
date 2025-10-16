@@ -119,10 +119,8 @@ If you use DeepVul in your work, please cite:
 	year = {2025},
 	doi = {10.1101/2024.10.17.618944},
 	publisher = {Cold Spring Harbor Laboratory},
-	abstract = {Despite their potential, current precision oncology approaches benefit only a small fraction of patients due to their limited focus on actionable genomic alterations. To expand its applicability, we propose DeepVul, a multi-task transformer-based model designed to predict gene essentiality and drug response from cancer transcriptome data. DeepVul aligns gene expressions, gene perturbations, and drug perturbations into a latent space, enabling simultaneous and accurate prediction of cancer cell vulnerabilities to numerous genes and drugs. Benchmarking against existing precision oncology approaches revealed that DeepVul not only matches but also complements oncogene-defined precision methods. Through interpretability analyses, DeepVul identifies underlying mechanisms of treatment response and resistance, as demonstrated with BRAF vulnerability prediction. By leveraging whole-genome transcriptome data, DeepVul enhances the clinical actionability of precision oncology, aiding in the identification of optimal treatments across a broader range of cancer patients. DeepVul is publicly available at https://github.com/alaaj27/DeepVul.git.Competing Interest StatementThe authors have declared no competing interest.},
 	URL = {https://www.biorxiv.org/content/early/2025/10/15/2024.10.17.618944},
 	eprint = {https://www.biorxiv.org/content/early/2025/10/15/2024.10.17.618944.full.pdf},
 	journal = {bioRxiv}
 }
-
 ```
